@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from sqlalchemy import Index, Integer, String, Enum, DateTime, ForeignKey
+from sqlalchemy import Index, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 class Base(DeclarativeBase):
@@ -24,7 +24,8 @@ class User(Base):
     nickname: Mapped[Optional[str]] = mapped_column(String(50), comment="昵称")
     avatar: Mapped[Optional[str]] = mapped_column(String(255), comment="头像URL",
                                                   default='https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg')
-    gender: Mapped[Optional[str]] = mapped_column(Enum('male', 'female', 'unknown', name='gender_enum'), comment="性别", default='unknown')
+    # 数据库里的 gender 列是 varchar，这里保持 String，避免 asyncpg 按枚举类型做参数转换
+    gender: Mapped[Optional[str]] = mapped_column(String(10), comment="性别", default='unknown')
     bio: Mapped[Optional[str]] = mapped_column(String(500), comment="个人简介", default='这个人很懒，什么都没留下')
     phone: Mapped[Optional[str]] = mapped_column(String(20), unique=True, comment="手机号")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now(), comment="创建时间")

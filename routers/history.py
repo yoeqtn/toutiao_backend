@@ -24,10 +24,12 @@ async def add_history(data: HistoryAddRequest,
 
 
 @router.get("/list")
-async def get_history_list(page: int = Query(1, ge=1),
-                           page_size: int = Query(10, ge=1, le=100, alias="pageSize"),
-                           user: User = Depends(get_current_user),
-                           db: AsyncSession = Depends(get_db)):
+async def get_history_list(
+        page: int = Query(1, ge=1),
+        page_size: int = Query(10, ge=1, le=100, alias="pageSize"),
+        user: User = Depends(get_current_user),
+        db: AsyncSession = Depends(get_db)
+):
     """
     获取历史记录列表
     """

@@ -1,4 +1,9 @@
-.venv/
 .env
-*.db
-*.sqlite3
+.venv
+__pycache__
+*.py[cod]
+.pytest_cache
+tests
+data
+eval
+results
